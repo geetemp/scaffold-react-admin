@@ -1,0 +1,27 @@
+{
+  "presets": ["react-app"],
+  "plugins": [
+    "transform-decorators-legacy",
+    [
+      "styled-jsx/babel",
+      {
+        "plugins": [
+          [
+            "styled-jsx-plugin-sass",
+            {
+              "sassOptions": {
+                "includePaths": ["./src/assets/styles"]
+              }
+            }
+          ]
+        ]
+      }
+    ],
+    ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": "css" }]
+  ],
+  "env": {
+    "production": {
+      "plugins": ["transform-remove-console"]
+    }
+  }
+}

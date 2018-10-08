@@ -1,0 +1,28 @@
+/* @styled-jsx=scoped */
+ol,
+ul {
+  padding-left: 30px;
+}
+
+.board-row::after {
+  clear: both;
+  content: "";
+  display: table;
+}
+
+.status {
+  margin-bottom: 10px;
+}
+
+.kbd-navigation .square:focus {
+  background: #ddd;
+}
+
+.game {
+  display: flex;
+  flex-direction: row;
+}
+
+.game-info {
+  margin-left: 20px;
+}
