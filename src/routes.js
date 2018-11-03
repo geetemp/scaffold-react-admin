@@ -18,7 +18,8 @@ const Routes = () => (
       <Route path="/" redirect="/test/1" exact={true} />
       <Route path="/test" name="系统管理">
         <Route path="/test/1" component={Index} authority={['a']} name="系统管理123">
-          <Route path="/test/1/1" component={TicTacToe} authority={['admin','a']}></Route>
+          <Route path="/test/1/1" component={TicTacToe} authority={['admin','a']} name="abc"></Route>
+          <Route path="/test/1/2" component={()=><div>hello cbd</div>} authority={['admin','a']} name="cbd"></Route>
         </Route>
       </Route>
     </Route>

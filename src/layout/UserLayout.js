@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { Link } from "react-router-dom";
 import { Icon } from 'antd';
 // import GlobalFooter from '@/components/GlobalFooter';
-import styles from './UserLayout.scss';
+// import styles from './UserLayout.scss';
 // import logo from '../assets/logo.svg';
 
 const links = [
@@ -49,7 +49,7 @@ class UserLayout extends React.PureComponent {
           {children}
         </div>
         {/* <GlobalFooter links={links} copyright={copyright} /> */}
-        <style jsx>{styles}</style>
+        {/* <style jsx>{styles}</style> */}
       </div>
     );
   }
