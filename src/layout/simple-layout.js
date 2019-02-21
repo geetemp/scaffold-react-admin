@@ -1,12 +1,10 @@
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
-import { Icon, Dropdown, Avatar, Menu, Button } from "antd";
+import { Icon, Dropdown, Avatar, Menu } from "antd";
 import BasicLayout from "./BasicLayout";
 import Authorized from "utils/Authorized";
 import userModel from "store/reducers/user";
-import globalModel from "store/reducers/global";
-import { history } from "root.js";
 import "./simple-layout.scss";
 
 @connect(
@@ -22,7 +20,7 @@ export default class SimpleLayout extends PureComponent {
     const { route } = this.props;
     const logo = (
       <h1 className="simple-layout-logo">
-        <img src={require("assets/imgs/logo.svg")} />
+        <img src={require("assets/imgs/logo.svg")} alt="logo"/>
       </h1>
     );
     return (

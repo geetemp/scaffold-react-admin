@@ -1,6 +1,5 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import BasicLayout from "layout/BasicLayout";
 import SimpleLayout from "layout/simple-layout";
 import UserLayout from "layout/UserLayout";
 import UserLogin from "pages/user/login";
@@ -14,6 +13,8 @@ const Routes = () => (
       <Route path="/user" redirect="/user/login" exact={true} />
       <Route path="/user/login" component={UserLogin} />
     </Route>
+    <Route path="/404" component={Exception404} />
+    <Route path="/500" component={Exception500} />
     <Route path="/" component={SimpleLayout} authority={authorities}>
       <Route path="/" redirect="/manage" exact={true} />
       <Route

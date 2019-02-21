@@ -1,5 +1,6 @@
 import React, {PureComponent} from "react";
 import { Button } from "antd";
+import { history } from 'root';
 import "./index.scss";
 
 /**
@@ -7,7 +8,6 @@ import "./index.scss";
  */
 export class Exception403 extends PureComponent{
   render() {
-    const { history } = this.props;
     return (
       <div className="exception403-box bg">
         <div className="container">
@@ -38,7 +38,6 @@ export class Exception403 extends PureComponent{
  */
 export class Exception404 extends PureComponent {
   render() {
-    const { history } = this.props;
     return (
       <div className="exception404-box bg">
         <div className="container">
@@ -69,7 +68,6 @@ export class Exception404 extends PureComponent {
  */
 export class Exception500 extends PureComponent {
   render() {
-    const { history } = this.props;
     return (
       <div className="exception500-box bg">
         <div className="container">
@@ -100,7 +98,6 @@ export class Exception500 extends PureComponent {
  */
 export class ClientErrorFallback extends PureComponent {
   render() {
-    const { history } = this.props;
     return (
       <div className="exception-client-error-box bg">
         <div className="container">
