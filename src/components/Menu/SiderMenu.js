@@ -1,6 +1,5 @@
 import React, { PureComponent } from "react";
 import { Layout } from "antd";
-import { Link } from "react-router-dom";
 import { urlToList, getMenuMatches } from "../utils";
 import BaseMenu from "./BaseMenu";
 const { Sider } = Layout;
@@ -72,31 +71,31 @@ export default class SideMenu extends PureComponent {
   };
 
   render() {
-    const { collapsed, theme, ...props } = this.props;
+    const { collapsed, theme, logo, onCollapse, userAuth } = this.props;
     const { openKeys } = this.state;
-    console.log("openKeys", openKeys);
     const siderToMenuProps = collapsed ? {} : { openKeys };
-
+    console.log(openKeys, siderToMenuProps, "siderMenuOpenKeys");
     return (
       <Sider
         trigger={null}
-        breakpoint="lg"
-        width={256}
+        breakpoint="xxl"
+        width={200}
         collapsible
-        // collapsed
-        theme="light"
+        onCollapse={onCollapse}
+        collapsed={collapsed}
+        theme={theme}
+        // style={{zIndex: "2000"}}
       >
         <div className="logo" id="logo">
-          <Link to="/">
-            <img src={""} alt="logo" />
-            <h1>geetemp</h1>
-          </Link>
+          {logo}
         </div>
         <BaseMenu
           {...siderToMenuProps}
-          mode="inline"
+          handleOpenChange={this.handleOpenChange}
           onOpenChange={this.handleOpenChange}
-          {...props}
+          {...this.props}
+          userAuth={userAuth}
+          className="base-menu"
         />
       </Sider>
     );

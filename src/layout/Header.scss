@@ -1,0 +1,12 @@
+#header {
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  height: 64px;
+  .trigger {
+    font-size: 20px;
+    height: 64px;
+    cursor: pointer;
+    transition: all 0.3s, padding 0s;
+    padding: 22px 24px;
+  }
+}

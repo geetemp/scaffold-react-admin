@@ -10,11 +10,49 @@ export default class Model {
     return instance;
   };
 
-  [asyncActionFactry](asyncFunc) {
+  static merge(source, target) {
+    const { state, actions, reducers } = source;
+    const {
+      state: tState,
+      actions: tActions,
+      reducers: tReducers,
+      namespace,
+      ...tOthers
+    } = target;
+    return {
+      ...source,
+      state: {
+        ...state,
+        ...tState
+      },
+      actions: {
+        ...actions,
+        ...tActions
+      },
+      reducers: {
+        ...reducers,
+        ...tReducers
+      },
+      ...tOthers
+    };
+  }
+
+  [asyncActionFactry](asyncFunc, namespace) {
+    const that = this;
     return function() {
       const passArgument = Array.prototype.slice.call(arguments);
       return function(dispatch, getState) {
-        return asyncFunc.apply({ dispatch, getState }, [...passArgument]);
+        const customDispatch = action => {
+          let { type } = action;
+          type = /\//.test(type) ? type : `${namespace}/${action.type}`;
+          dispatch({
+            ...action,
+            type
+          });
+        };
+        that.dispatch = customDispatch;
+        that.getState = getState;
+        return asyncFunc.apply(that, [...passArgument]);
       };
     };
   }
@@ -34,7 +72,10 @@ export default class Model {
 
     const asyncActions = {};
     Object.keys(actions).reduce((lastActions, actionName) => {
-      lastActions[actionName] = this[asyncActionFactry](actions[actionName]);
+      lastActions[actionName] = this[asyncActionFactry](
+        actions[actionName],
+        namespace
+      );
       return lastActions;
     }, asyncActions);
 

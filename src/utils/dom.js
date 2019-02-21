@@ -48,7 +48,6 @@ export function width(el) {
     styles = el.currentStyle;
   }
   const width = el.offsetWidth;
-  console.log('ccc', width);
   const borderLeftWidth = parseFloat(styles.borderLeftWidth);
   const borderRightWidth = parseFloat(styles.borderRightWidth);
   const paddingLeft = parseFloat(styles.paddingLeft);

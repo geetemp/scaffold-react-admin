@@ -1,0 +1,28 @@
+h1.simple-layout-logo {
+  background-color: #002140;
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.08);
+  height: 64px;
+  line-height: 64px;
+  text-align: center;
+  font-weight: 100;
+  margin: 0;
+  color: #898989;
+  font-size: 24px;
+  span {
+    color: #4ba9db;
+  }
+  img {
+    width: 60px;
+  }
+}
+
+.simple-layout .layout-header {
+  position: relative;
+}
+
+.simple-layout-user {
+  padding-right: 58px;
+  .avatar {
+    margin-right: 10px;
+  }
+}

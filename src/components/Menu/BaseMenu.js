@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import { Menu, Icon } from "antd";
 import { Link } from "react-router-dom";
-
+import { urlToList, getMenuMatches } from "../utils";
 const { SubMenu } = Menu;
 
 // Allow menu.js config icon as string or ReactNode
@@ -19,6 +19,8 @@ const getIcon = icon => {
 };
 
 export default class BaseMenu extends PureComponent {
+  flatMenuKeys = this.getFlatMenuKeys(this.props.menuData);
+
   /**
    * Recursively flatten the data
    * [{path:string},{path:string}] => {path,path2}
@@ -33,6 +35,38 @@ export default class BaseMenu extends PureComponent {
       keys.push(item.path);
     });
     return keys;
+  }
+
+  // Get the currently selected menu
+  getSelectedMenuKeys = () => {
+    const {
+      location: { pathname }
+    } = this.props;
+    return urlToList(pathname).map(itemPath =>
+      getMenuMatches(this.flatMenuKeys, itemPath).pop()
+    );
+  };
+
+  hasAuthority = (userAuth, authoritys) => {
+    // Retirement authority, return target;
+    if (!authoritys || !userAuth) {
+      return true;
+    }
+    // 数组处理
+    if (Array.isArray(authoritys)) {
+      if (authoritys.indexOf(userAuth) >= 0) {
+        return true;
+      }
+      return false;
+    }
+
+    // string 处理
+    if (typeof authoritys === 'string') {
+      if (authoritys === userAuth) {
+        return true;
+      }
+      return false;
+    }
   }
 
   /**
@@ -59,11 +93,12 @@ export default class BaseMenu extends PureComponent {
    */
   getSubMenuOrItem = item => {
     // doc: add hideChildrenInMenu
-    console.log("item", item);
+    const {userAuth} = this.props;
     if (
       item.children &&
       !item.hideChildrenInMenu &&
-      item.children.some(child => child.name)
+      item.children.some(child => child.name) &&
+      this.hasAuthority(userAuth, item.authority)
     ) {
       return (
         <SubMenu
@@ -83,7 +118,7 @@ export default class BaseMenu extends PureComponent {
         </SubMenu>
       );
     }
-    return <Menu.Item key={item.path}>{this.getMenuItemPath(item)}</Menu.Item>;
+    return this.hasAuthority(userAuth, item.authority) ? <Menu.Item key={item.path}>{this.getMenuItemPath(item)}</Menu.Item> : null;
   };
 
   /**
@@ -136,17 +171,28 @@ export default class BaseMenu extends PureComponent {
   };
 
   render() {
-    const { openKeys, onOpenChange, menuData } = this.props;
-    console.log(openKeys);
-    const selectedKeys = openKeys ? [openKeys[openKeys.length - 1]] : null;
+    const {
+      openKeys,
+      onOpenChange,
+      menuData,
+      theme,
+      collapsed,
+      className
+    } = this.props;
+    let selectedKeys = this.getSelectedMenuKeys();
+    if (!selectedKeys.length && openKeys) {
+      selectedKeys = [openKeys[openKeys.length - 1]];
+    }
+    const props = collapsed ? {} : { openKeys };
     return (
       <Menu
         key="Menu"
-        mode="inline"
-        style={{ width: 256 }}
+        className={className}
+        theme={theme}
+        mode={collapsed ? "vertical" : "inline"}
         onOpenChange={onOpenChange}
         selectedKeys={selectedKeys}
-        openKeys={openKeys}
+        {...props}
       >
         {this.getNavMenuItems(menuData)}
       </Menu>

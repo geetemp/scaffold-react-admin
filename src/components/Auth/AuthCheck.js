@@ -9,7 +9,7 @@ import { CURRENT } from './RenderAuthCheck';
  * @param { 通过的组件 Passing components } target
  * @param { 未通过的组件 no pass components } Exception
  */
-const checkPermissions = (authority, currentAuthority, target, Exception) => {
+export const checkPermissions = (authority, currentAuthority, target, Exception) => {
   // 没有判定权限.默认查看所有
   // Retirement authority, return target;
   if (!authority) {
@@ -73,6 +73,7 @@ const checkPermissions = (authority, currentAuthority, target, Exception) => {
 
 const Authorized = ({ children, authority, noMatch = null }) => {
   const childrenRender = typeof children === 'undefined' ? null : children;
+  console.log('CURRENT', CURRENT);
   return checkPermissions(authority, CURRENT, childrenRender, noMatch);
 };
 

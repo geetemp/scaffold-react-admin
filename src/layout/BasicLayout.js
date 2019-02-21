@@ -1,13 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Layout, Menu, Spin } from "antd";
+import { Layout } from "antd";
+import { connect } from "react-redux";
 import pathToRegexp from "path-to-regexp";
-import AuthCheck from "components/Auth";
-// import Footer from "./Footer";
+import Authorized from "utils/Authorized";
 import SiderMenu from "components/Menu/SiderMenu";
-import Exception403 from "pages/exception/403";
+import { Exception403 } from "components/Exception";
+import globalModel from "store/reducers/global";
+import Header from "./Header";
 
-const { Header, Content } = Layout;
+const { Content } = Layout;
 
 // Conversion router to menu.
 function formatter(data, parentAuthority) {
@@ -26,11 +27,15 @@ function formatter(data, parentAuthority) {
   });
 }
 
+@connect(
+  ({ global }) => {
+    return { ...global };
+  },
+  {
+    changeLayoutCollapsed: globalModel.actions["changeLayoutCollapsed"]
+  }
+)
 export default class BasicLayout extends React.PureComponent {
-  // state = {
-  //   rendering: true,
-  // };
-
   breadcrumbNameMap = this.getBreadcrumbNameMap();
 
   /**
@@ -76,52 +81,52 @@ export default class BasicLayout extends React.PureComponent {
     };
   }
 
+  handleMenuCollapse = collapsed => {
+    const { changeLayoutCollapsed } = this.props;
+    changeLayoutCollapsed(collapsed);
+  };
+
   render() {
     const {
-      route,
+      logo,
+      customHeader,
+      className,
       children,
-      location: { pathname }
+      location: { pathname },
+      roles
     } = this.props;
     const menuData = this.getMenuData();
     const routerConfig = this.matchParamsPath(pathname);
     return (
-      <Layout>
+      <Layout className={className}>
         <SiderMenu
-          // logo={logo}
-          // Authorized={Authorized}
-          // theme={navTheme}
+          logo={logo}
+          theme={"dark"}
+          userAuth={roles}
           onCollapse={this.handleMenuCollapse}
           menuData={menuData}
           {...this.props}
         />
         <Layout
           style={{
-            // ...this.getLayoutStyle(),
             minHeight: "100vh"
           }}
+          className="layout-content"
         >
-          {/* <Header
-            menuData={menuData}
+          <Header
             handleMenuCollapse={this.handleMenuCollapse}
-            // logo={logo}
+            logo={logo}
+            customHeader={customHeader}
             {...this.props}
-          /> */}
-          <Header />
-          <Content
-            style={
-              {
-                // ...this.getContentStyle()
-              }
-            }
-          >
-            <AuthCheck
+          />
+          <Content>
+            <Authorized
               authority={routerConfig.authority}
               noMatch={<Exception403 />}
             >
               {children}
-            </AuthCheck>
+            </Authorized>
           </Content>
-          {/* <Footer /> */}
         </Layout>
       </Layout>
     );

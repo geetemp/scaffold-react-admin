@@ -221,48 +221,7 @@ module.exports = (
                   }
                 ]
         },
-        {
-          test: /\.scss$/,
-          exclude: [paths.appBuild],
-          use: IS_NODE // Style-loader does not work in Node.js without some crazy
-            ? // magic. Luckily we just need css-loader.
-              [
-                {
-                  loader: require.resolve("css-loader"),
-                  options: { importLoaders: 1 }
-                },
-                { loader: require.resolve("sass-loader") }
-              ]
-            : IS_DEV
-              ? [
-                  require.resolve("style-loader"),
-                  {
-                    loader: require.resolve("css-loader"),
-                    options: { importLoaders: 1 }
-                  },
-                  {
-                    loader: require.resolve("postcss-loader"),
-                    options: postCssOptions
-                  },
-                  { loader: require.resolve("sass-loader") }
-                ]
-              : [
-                  MiniCssExtractPlugin.loader,
-                  {
-                    loader: require.resolve("css-loader"),
-                    options: {
-                      importLoaders: 1,
-                      modules: false,
-                      minimize: true
-                    }
-                  },
-                  {
-                    loader: require.resolve("postcss-loader"),
-                    options: postCssOptions
-                  },
-                  { loader: require.resolve("sass-loader") }
-                ]
-        }, // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
+        // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
         // using the extension .module.css
         {
           test: /\.module\.css$/,
