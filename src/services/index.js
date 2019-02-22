@@ -44,8 +44,20 @@ const xhr = ({ url, body = null, method = "get" }) => {
     return response.json();
   }
 
+  /**
+   * handle no login case.
+   * pop up login dialog when any interface return no login status
+   * except url with 'state' param, it's three part login process
+   * @param {*} response
+   */
+  function handleNoLogin(response) {
+    root.store.dispatch({ type: "user/setUser", payload: {} });
+    localStorage.removeItem("user");
+    history.replace("/user/login");
+    return response;
+  }
+
   function log(response) {
-    console.log(url, response);
     return response;
   }
 
@@ -65,6 +77,7 @@ const xhr = ({ url, body = null, method = "get" }) => {
     .then(checkStatus)
     .then(parseJSON)
     .then(parseRequest)
+    .then(handleNoLogin)
     .then(log)
     .catch(response => {
       if (response.code === 404) {
