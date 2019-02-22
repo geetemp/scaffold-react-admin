@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import { Layout } from "antd";
 import { urlToList, getMenuMatches } from "../utils";
-import BaseMenu from "./BaseMenu";
+import BaseMenu from "./base-menu";
 const { Sider } = Layout;
 
 /**

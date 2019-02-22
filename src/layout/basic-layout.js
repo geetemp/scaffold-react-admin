@@ -2,11 +2,11 @@ import React from "react";
 import { Layout } from "antd";
 import { connect } from "react-redux";
 import pathToRegexp from "path-to-regexp";
-import Authorized from "utils/Authorized";
-import SiderMenu from "components/Menu/SiderMenu";
-import { Exception403 } from "components/Exception";
+import Authorized from "utils/authorized";
+import SiderMenu from "components/Menu/sider-menu";
+import { Exception403 } from "components/exception";
 import globalModel from "store/reducers/global";
-import Header from "./Header";
+import Header from "./header";
 
 const { Content } = Layout;
 

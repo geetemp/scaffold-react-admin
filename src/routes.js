@@ -1,9 +1,9 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 import SimpleLayout from "layout/simple-layout";
-import UserLayout from "layout/UserLayout";
+import UserLayout from "layout/user-layout";
 import UserLogin from "pages/user/login";
-import { Exception404, Exception500 } from "components/Exception";
+import { Exception404, Exception500 } from "components/exception";
 
 const authorities = ["admin"];
 

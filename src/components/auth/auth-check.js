@@ -1,5 +1,5 @@
 
-import { CURRENT } from './RenderAuthCheck';
+import { CURRENT } from './render-auth-check';
 
 /**
  * 通用权限检查方法 TODO暂时支持数组和字符串

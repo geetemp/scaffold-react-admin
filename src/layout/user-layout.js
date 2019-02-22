@@ -1,5 +1,5 @@
 import React from "react";
-import "./UserLayout.scss";
+import "./user-layout.scss";
 
 class UserLayout extends React.PureComponent {
   render() {

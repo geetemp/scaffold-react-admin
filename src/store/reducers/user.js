@@ -1,8 +1,8 @@
-import Model from "../Model";
+import Model from "../model";
 import { history } from "root";
 
 import { clearAuthority, setAuthority } from "utils/authority";
-import { reloadAuthorized } from "utils/Authorized";
+import { reloadAuthorized } from "utils/authorized";
 import { USER_STORE_KEY } from "contants";
 
 const userInfo = {

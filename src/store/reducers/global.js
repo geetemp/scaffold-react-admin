@@ -1,4 +1,4 @@
-import Model from "../Model";
+import Model from "../model";
 
 export default Model.getInstance(
   class extends Model {

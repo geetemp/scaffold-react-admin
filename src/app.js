@@ -1,8 +1,8 @@
 import React from "react";
 import configureStore from "store";
 import routes from "routes";
-import createStaticRoutes from "utils/createStaticRoutes";
-import renderRoutes from "utils/renderRoutes";
+import createStaticRoutes from "utils/create-static-routes";
+import renderRoutes from "utils/render-routes";
 import "assets/styles/global.scss";
 
 const requireModels = require.context("./store/reducers", false, /\.js$/);

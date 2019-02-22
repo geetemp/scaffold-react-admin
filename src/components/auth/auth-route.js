@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import AuthCheck from './AuthCheck';
+import AuthCheck from './auth-check';
 
 // TODO 预备使用，动态配置？
 const AuthCheckRoute = ({ component: Component, render, authority, redirectPath, ...rest }) => (

@@ -2,8 +2,8 @@ import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import { Icon, Dropdown, Avatar, Menu } from "antd";
-import BasicLayout from "./BasicLayout";
-import Authorized from "utils/Authorized";
+import BasicLayout from "./basic-layout";
+import Authorized from "utils/authorized";
 import userModel from "store/reducers/user";
 import "./simple-layout.scss";
 
