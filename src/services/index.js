@@ -19,12 +19,12 @@ const xhr = ({url, body = null, method = 'get'}) => {
 
   function parseRequest (response) {
     response.transformError = ''; //
-    if (response.code == 0 || (response.code >= 200 && response.code < 300)) {
+    if (response[API_STATUS_KEY] === 0 || (response[API_STATUS_KEY] >= 200 && response[API_STATUS_KEY] < 300)) {
       return response;
-    } else if (response.code == 404) {
+    } else if (response[API_STATUS_KEY] === 404) {
       // 这里抛出错误方便服务器端也能处理
       throw response;
-    } else if (response.code == 500) {
+    } else if (response[API_STATUS_KEY] === 500) {
       throw response;
     } else {
       response.transformError = transformError (response);
@@ -84,9 +84,9 @@ const xhr = ({url, body = null, method = 'get'}) => {
     .then (handleNoLogin)
     .then (log)
     .catch (response => {
-      if (response.code === 404) {
+      if (response[API_STATUS_KEY] === 404) {
         history.push ('/404');
-      } else if (response.code === 500) {
+      } else if (response[API_STATUS_KEY] === 500) {
         history.push ('/500');
       }
       throw response;
