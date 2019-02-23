@@ -1,5 +1,5 @@
 import React from "react";
-import { USER_STORE_KEY } from "contants";
+import {USER_STORE_KEY} from "contants";
 
 /**
  * init user info to redux
