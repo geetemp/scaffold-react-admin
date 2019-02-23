@@ -319,6 +319,9 @@ module.exports = () => {
 };
 ```
 
+### 文件/目录名规范
+详情请访问[技术规范](https://github.com/geetemp/team/wiki/%E6%8A%80%E6%9C%AF%E8%A7%84%E8%8C%83)
+
 ### 组件书写规范
 
 组件有两种写法，一种是函数(function)，另一种是类(class)。先看下函数的写法规范
