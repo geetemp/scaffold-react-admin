@@ -3,7 +3,7 @@ import { history } from "root";
 
 import { clearAuthority, setAuthority } from "utils/authority";
 import { reloadAuthorized } from "utils/authorized";
-import { USER_STORE_KEY } from "contants";
+import {USER_STORE_KEY} from "contants";
 
 const userInfo = {
   name: "geetemp",

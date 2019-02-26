@@ -117,7 +117,68 @@ yarn start
 其实`<Route path="/manage" authority={authorities} icon="setting" name="系统管理">` 这个路由配置只是为了生成导航罢了，没有实际的组件渲染
 
 ### 登录机制
+登录是借助localStorage存储用户信息来实现的。当调用登录接口，拿到返回的用户信息以`user`键值存入localStorage,并存入redux中(为了提高频繁读取用户信息的性能)；
 
+退出时删除localStorage中`user`键值和redux中的用户信息；
+
+由于redux存储的用户信息在浏览器刷新后会被清空，所有设计了一个高阶组件在应用启动时，自动读取localStorage的用户信息到
+redux中；高阶组件文件位置在`src/utils/hoc/init-user-data.js`,代码实现如下
+```js
+/**
+ * init user info to redux
+ * read user info from localStorage to redux
+ */
+export default class InitUserData extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    const userStr = localStorage.getItem(USER_STORE_KEY);
+    const user = userStr ? JSON.parse(userStr) : {};
+    props.store.dispatch({
+      type: "user/setUser",
+      payload: user
+    });
+  }
+
+  render() {
+    return this.props.children;
+  }
+}
+```
+最后在应用启动配置上就可以啦，见`root.js`
+```js
+export default function root() {
+  return (
+    <Provider store={store}>
+      <ErrorBoundary>
+        <InitUserData store={store}>
+          <Router history={history}>
+            <App />
+          </Router>
+        </InitUserData>
+      </ErrorBoundary>
+    </Provider>
+  );
+}
+```
+
+当系统使用中服务器端用户session过期，需要用户身份的接口将返回当前未登录状态，应用接受到状态后，执行退出操作（删除localStorage中`user`键值和redux中的用户信息）,然后返回到登录页面。代码实现如下
+```js
+/**
+   * handle no login case.
+   * pop up login dialog when any interface return no login status
+   * except url with 'state' param, it's three part login process
+   * @param {*} response
+   */
+  function handleNoLogin (response) {
+    // judge app is logining status just now
+    if (response[API_STATUS_KEY] === USER_STATUS_NO_LOGIN) {
+      root.store.dispatch ({type: 'user/setUser', payload: {}});
+      localStorage.removeItem ('user');
+      history.replace ('/user/login');
+    }
+    return response;
+  }
+```
 
 ### model 的使用
 
@@ -256,6 +317,9 @@ module.exports = () => {
   };
 };
 ```
+
+### 文件/目录名规范
+详情请访问[技术规范](https://github.com/geetemp/team/wiki/%E6%8A%80%E6%9C%AF%E8%A7%84%E8%8C%83)
 
 ### 组件书写规范
 
