@@ -95,6 +95,7 @@ export default class SideMenu extends PureComponent {
           onOpenChange={this.handleOpenChange}
           {...this.props}
           userAuth={userAuth}
+          mode="inline"
           className="base-menu"
         />
       </Sider>

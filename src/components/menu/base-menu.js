@@ -61,13 +61,13 @@ export default class BaseMenu extends PureComponent {
     }
 
     // string 处理
-    if (typeof authoritys === 'string') {
+    if (typeof authoritys === "string") {
       if (authoritys === userAuth) {
         return true;
       }
       return false;
     }
-  }
+  };
 
   /**
    * 获得菜单子节点
@@ -93,7 +93,7 @@ export default class BaseMenu extends PureComponent {
    */
   getSubMenuOrItem = item => {
     // doc: add hideChildrenInMenu
-    const {userAuth} = this.props;
+    const { userAuth } = this.props;
     if (
       item.children &&
       !item.hideChildrenInMenu &&
@@ -118,7 +118,9 @@ export default class BaseMenu extends PureComponent {
         </SubMenu>
       );
     }
-    return this.hasAuthority(userAuth, item.authority) ? <Menu.Item key={item.path}>{this.getMenuItemPath(item)}</Menu.Item> : null;
+    return this.hasAuthority(userAuth, item.authority) ? (
+      <Menu.Item key={item.path}>{this.getMenuItemPath(item)}</Menu.Item>
+    ) : null;
   };
 
   /**
@@ -177,19 +179,23 @@ export default class BaseMenu extends PureComponent {
       menuData,
       theme,
       collapsed,
-      className
+      className,
+      mode
     } = this.props;
     let selectedKeys = this.getSelectedMenuKeys();
     if (!selectedKeys.length && openKeys) {
       selectedKeys = [openKeys[openKeys.length - 1]];
     }
-    const props = collapsed ? {} : { openKeys };
+    let props = {};
+    if (openKeys) {
+      props = collapsed ? {} : { openKeys };
+    }
     return (
       <Menu
         key="Menu"
         className={className}
         theme={theme}
-        mode={collapsed ? "vertical" : "inline"}
+        mode={mode}
         onOpenChange={onOpenChange}
         selectedKeys={selectedKeys}
         {...props}

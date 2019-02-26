@@ -114,7 +114,7 @@ yarn start
       </Route>
     </Route>
 ```
-其实`<Route path="/manage" authority={authorities} icon="setting" name="系统管理">` 这个路由配置
+其实`<Route path="/manage" authority={authorities} icon="setting" name="系统管理">` 这个路由配置只是为了生成导航罢了，没有实际的组件渲染
 
 ### 登录机制
 
