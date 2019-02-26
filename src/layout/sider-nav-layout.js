@@ -1,77 +1,79 @@
 import React, { PureComponent } from "react";
+import { Redirect } from "react-router-dom";
 import { Layout, Icon } from "antd";
 import { connect } from "react-redux";
 import Authorized from "utils/authorized";
 import SiderMenu from "components/menu/sider-menu";
 import Content from "./content";
 import globalModel from "store/reducers/global";
+import layoutWrapper from "./layout-wrapper";
 import "./sider-nav-layout.scss";
 
 const { Header: AntHeader } = Layout;
 
-@connect(
-  ({ global }) => {
-    return { ...global };
-  },
-  {
-    changeLayoutCollapsed: globalModel.actions["changeLayoutCollapsed"]
-  }
-)
-export default class SiderNavLayout extends React.PureComponent {
-  //获取侧边菜单数据
-  getMenuData() {
-    const {
-      route: { routes }
-    } = this.props;
-    return formatter(routes);
-  }
+export default layoutWrapper()(
+  connect(
+    ({ global }) => {
+      return { ...global };
+    },
+    {
+      changeLayoutCollapsed: globalModel.actions["changeLayoutCollapsed"]
+    }
+  )(
+    class SiderNavLayout extends React.PureComponent {
+      handleMenuCollapse = collapsed => {
+        const { changeLayoutCollapsed } = this.props;
+        changeLayoutCollapsed(collapsed);
+      };
 
-  handleMenuCollapse = collapsed => {
-    const { changeLayoutCollapsed } = this.props;
-    changeLayoutCollapsed(collapsed);
-  };
-
-  render() {
-    const {
-      logo,
-      customHeader,
-      className,
-      children,
-      location,
-      roles,
-      route
-    } = this.props;
-    const menuData = this.getMenuData();
-    return (
-      <Layout className={`sider-nav-layout ${className || ""}`}>
-        <SiderMenu
-          logo={logo}
-          theme={"dark"}
-          userAuth={roles}
-          onCollapse={this.handleMenuCollapse}
-          menuData={menuData}
-          {...this.props}
-        />
-        <Layout
-          style={{
-            minHeight: "100vh"
-          }}
-          className="layout-content"
-        >
-          <Header
-            handleMenuCollapse={this.handleMenuCollapse}
-            logo={logo}
-            customHeader={customHeader}
-            {...this.props}
-          />
-          <Content route={route} location={location}>
-            {children}
-          </Content>
-        </Layout>
-      </Layout>
-    );
-  }
-}
+      render() {
+        const {
+          logo,
+          customHeader,
+          className,
+          children,
+          location,
+          roles,
+          route,
+          menuData
+        } = this.props;
+        return (
+          <Authorized
+            authority={route.authority}
+            noMatch={<Redirect to="/user/login" />}
+          >
+            <Layout className={`sider-nav-layout ${className || ""}`}>
+              <SiderMenu
+                logo={logo}
+                theme={"dark"}
+                userAuth={roles}
+                onCollapse={this.handleMenuCollapse}
+                menuData={menuData}
+                {...this.props}
+              />
+              <Layout
+                style={{
+                  minHeight: "100vh"
+                }}
+                className="layout-content"
+              >
+                <Header
+                  handleMenuCollapse={this.handleMenuCollapse}
+                  logo={logo}
+                  customHeader={customHeader}
+                  {...this.props}
+                />
+                <Content route={route} location={location}>
+                  {children}
+                </Content>
+              </Layout>
+            </Layout>
+          </Authorized>
+        );
+      }
+    }
+  )
+);
 
 class Header extends PureComponent {
   toggle = () => {
@@ -95,21 +97,4 @@ class Header extends PureComponent {
       </AntHeader>
     );
   }
-}
-
-// Conversion router to menu.
-function formatter(data, parentAuthority) {
-  return data.map(item => {
-    const result = {
-      ...item,
-      authority: item.authority || parentAuthority
-    };
-    if (item.routes) {
-      const children = formatter(item.routes, item.authority);
-      // Reduce memory usage
-      result.children = children;
-    }
-    delete result.routes;
-    return result;
-  });
 }
