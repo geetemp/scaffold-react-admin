@@ -1,0 +1,17 @@
+.header-nav-layout {
+  .ant-layout-header {
+    background: #fff;
+    #header {
+      width: 1200px;
+      margin: 0 auto;
+      .ant-menu-horizontal {
+        line-height: 64px;
+      }
+    }
+  }
+
+  .header-nav-layout-content {
+    width: 1200px;
+    margin: 0 auto;
+  }
+}

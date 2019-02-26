@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Authorized from "utils/authorized";
 import BaseMenu from "components/menu/base-menu";
 import Content from "./content";
+import "./header-nav-layout.scss";
 
 const { Header: AntHeader } = Layout;
 
@@ -28,7 +29,7 @@ export default class HeaderNavLayout extends PureComponent {
     } = this.props;
     const menuData = this.getMenuData();
     return (
-      <Layout className={className}>
+      <Layout className={`header-nav-layout ${className || ""}`}>
         <Layout
           style={{
             minHeight: "100vh"
@@ -41,7 +42,11 @@ export default class HeaderNavLayout extends PureComponent {
             customHeader={customHeader}
             {...this.props}
           />
-          <Content route={route} location={location}>
+          <Content
+            route={route}
+            location={location}
+            className="header-nav-layout-content"
+          >
             {children}
           </Content>
         </Layout>
@@ -52,10 +57,11 @@ export default class HeaderNavLayout extends PureComponent {
 
 class Header extends PureComponent {
   render() {
-    const { customHeader, menuData } = this.props;
+    const { customHeader, menuData, logo } = this.props;
     return (
       <AntHeader style={{ padding: 0 }} className="layout-header">
-        <div className="header" id="header">
+        <div id="header">
+          <logo />
           <BaseMenu
             menuData={menuData}
             location={this.props.location}

@@ -1,29 +1,13 @@
-import React from "react";
-import { Layout } from "antd";
+import React, { PureComponent } from "react";
+import { Layout, Icon } from "antd";
 import { connect } from "react-redux";
-import pathToRegexp from "path-to-regexp";
 import Authorized from "utils/authorized";
-import SiderMenu from "components/Menu/sider-menu";
+import SiderMenu from "components/menu/sider-menu";
 import Content from "./content";
 import globalModel from "store/reducers/global";
-import Header from "./header";
+import "./sider-nav-layout.scss";
 
-// Conversion router to menu.
-function formatter(data, parentAuthority) {
-  return data.map(item => {
-    const result = {
-      ...item,
-      authority: item.authority || parentAuthority
-    };
-    if (item.routes) {
-      const children = formatter(item.routes, item.authority);
-      // Reduce memory usage
-      result.children = children;
-    }
-    delete result.routes;
-    return result;
-  });
-}
+const { Header: AntHeader } = Layout;
 
 @connect(
   ({ global }) => {
@@ -59,7 +43,7 @@ export default class SiderNavLayout extends React.PureComponent {
     } = this.props;
     const menuData = this.getMenuData();
     return (
-      <Layout className={className}>
+      <Layout className={`sider-nav-layout ${className || ""}`}>
         <SiderMenu
           logo={logo}
           theme={"dark"}
@@ -87,4 +71,45 @@ export default class SiderNavLayout extends React.PureComponent {
       </Layout>
     );
   }
+}
+
+class Header extends PureComponent {
+  toggle = () => {
+    const { collapsed, handleMenuCollapse } = this.props;
+    handleMenuCollapse(!collapsed);
+  };
+
+  render() {
+    const { customHeader, collapsed } = this.props;
+    return (
+      <AntHeader style={{ padding: 0 }} className="layout-header">
+        <div id="header">
+          <Icon
+            className="trigger"
+            type={collapsed ? "menu-unfold" : "menu-fold"}
+            onClick={this.toggle}
+          />
+
+          {customHeader}
+        </div>
+      </AntHeader>
+    );
+  }
+}
+
+// Conversion router to menu.
+function formatter(data, parentAuthority) {
+  return data.map(item => {
+    const result = {
+      ...item,
+      authority: item.authority || parentAuthority
+    };
+    if (item.routes) {
+      const children = formatter(item.routes, item.authority);
+      // Reduce memory usage
+      result.children = children;
+    }
+    delete result.routes;
+    return result;
+  });
 }
