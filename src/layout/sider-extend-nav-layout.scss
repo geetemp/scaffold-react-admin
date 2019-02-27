@@ -1,0 +1,19 @@
+.extend-layout {
+  flex-direction: column !important;
+  .extend-layout-content {
+    .ant-layout-sider-trigger {
+      display: none;
+    }
+  }
+}
+.sider-extend-nav-layout {
+  .layout-header {
+    width: 100%;
+    background: #fff;
+  }
+  .extend-layout-content {
+    display: flex;
+    flex: auto;
+    flex-direction: row;
+  }
+}
