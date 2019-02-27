@@ -1,0 +1,26 @@
+.extend-menu {
+  .ant-menu-item-selected {
+    background: rgba($color: #1890ff, $alpha: 0.1) !important;
+  }
+}
+
+.extend-menu.ant-menu-vertical .ant-menu-item {
+  padding: 16px 0;
+  height: 88px;
+  text-align: center;
+  i {
+    display: block;
+  }
+}
+.sider-extend {
+  display: flex;
+  flex: 0 auto;
+  .sider-extned-submenu {
+    width: 160px;
+    height: 100%;
+    background-color: #e5e5e5;
+    .ant-menu {
+      background: transparent;
+    }
+  }
+}
