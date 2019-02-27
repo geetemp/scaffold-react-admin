@@ -2,6 +2,7 @@ import React from "react";
 import { Switch, Route } from "react-router-dom";
 import HeaderNavLayout from "layout/header-nav-layout";
 import SiderNavLayout from "layout/sider-nav-layout";
+import SiderExtendNavLayout from "layout/sider-extend-nav-layout";
 import UserLayout from "layout/user-layout";
 import UserLogin from "pages/user/login";
 import { Exception404, Exception500 } from "components/exception";
@@ -16,15 +17,16 @@ const Routes = () => (
     </Route>
     <Route path="/404" component={Exception404} />
     <Route path="/500" component={Exception500} />
-    <Route path="/" component={HeaderNavLayout} authority={authorities}>
+    <Route path="/" component={SiderNavLayout} authority={authorities}>
       <Route path="/" redirect="/manage" exact={true} />
       <Route
         path="/manage"
         authority={authorities}
         icon="setting"
         name="系统管理"
+        component={() => <p>个人信息页，admin角色可以访问</p>}
       >
-        <Route path="/manage" redirect="/manage/personal" exact={true} />
+        {/* <Route path="/manage" redirect="/manage/personal" exact={true} />
         <Route
           path="/manage/personal"
           component={() => <p>个人信息页，admin角色可以访问</p>}
@@ -35,10 +37,10 @@ const Routes = () => (
           component={() => <div>主题设置，conunselor角色可以访问</div>}
           authority={["conunselor"]}
           name="主题设置"
-        />
+        /> */}
       </Route>
       <Route path="/cc" authority={authorities} icon="user" name="客户管理">
-        <Route path="/cc" redirect="/manage/personal" exact={true} />
+        <Route path="/cc" redirect="/cc/personal" exact={true} />
         <Route
           path="/cc/personal"
           component={() => <p>个人信息页，admin角色可以访问</p>}
